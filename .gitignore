@@ -1,0 +1,6 @@
+.vercel
+# 忽略 Yarn 的依赖包
+node_modules/
+yarn-error.log
+# 忽略 Yarn 的锁文件（如果你不想跟踪它）
+# yarn.lock

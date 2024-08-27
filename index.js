@@ -3,31 +3,25 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 从环境变量中获取目标 URL 和语言参数
+// 从环境变量中获取目标URL
 const targetURLs = process.env.TARGET_URLS ? process.env.TARGET_URLS.split(',') : ['https://deeplx.vercel.app'];
-const defaultSourceLang = process.env.SOURCE_LANG || 'ZH'; // 使用大写的环境变量名
-const defaultTargetLang = process.env.TARGET_LANG || 'EN'; // 使用大写的环境变量名
+
+// 从环境变量中获取源语言和目标语言，如果没有则使用默认值
+const sourceLang = process.env.SOURCE_LANG || 'auto';
+const targetLang = process.env.TARGET_LANG || 'en';
 
 app.use(express.json());
 app.use(express.text());
 
-app.post('/translate', async (req, res) => {
-    // 从请求体中提取参数，使用环境变量作为默认值
-    const { text, source_lang = defaultSourceLang, target_lang = defaultTargetLang } = req.body;
-
-    // 检查必需的参数
-    if (!text) {
-        return res.status(400).json({ error: '缺少必需的参数: text' });
-    }
-
+app.all('*', async (req, res) => {
     // 创建请求配置，考虑设置请求超时
     const createRequestConfig = (targetURL) => ({
-        method: 'POST',
-        url: targetURL,
+        method: req.method,
+        url: targetURL + req.path,
         data: {
-            text,
-            source_lang,
-            target_lang,
+            text: req.body.text, // 从请求体中提取 text
+            source_lang: sourceLang, // 使用环境变量或默认值
+            target_lang: targetLang, // 使用环境变量或默认值
         },
         timeout: 5000, // 设置5秒超时
     });
@@ -47,7 +41,7 @@ app.post('/translate', async (req, res) => {
         // 响应成功，设置响应头并返回数据
         res.set({
             'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', // 根据需要调整Content-Type
         }).status(responses.status).send(responses.data);
 
     } catch (error) {
