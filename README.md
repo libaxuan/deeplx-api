@@ -4,7 +4,7 @@
 
 ### 步骤 1：Fork 项目
 
-1. 访问 [deeplx-api](https://github.com/libaxaun/deeplx-api) 项目页面。
+1. 访问 [deeplx-api](https://github.com/libaxuan/deeplx-api) 项目页面。
 2. 点击右上角 "Fork" 按钮，将项目复制到 GitHub 账户下。
 
 ### 步骤 2：连接 Vercel 和 GitHub
