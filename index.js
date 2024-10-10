@@ -12,7 +12,7 @@ const sourceLang = process.env.SOURCE_LANG || 'auto';
 const targetLang = process.env.TARGET_LANG || 'en';
 
 // 配置 CORS，允许特定的域名
-const allowedOrigins = ['http://localhost:63342', 'https://6b.globalai.us.kg']; // 替换为你的域名
+const allowedOrigins = ['http://localhost:63342', 'https://6b.globalai.us.kg', 'https://yaji.globalai.us.kg']; // 替换为你的域名
 app.use(cors({
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'OPTIONS'],
